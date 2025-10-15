@@ -12,7 +12,7 @@ class AppConfig:
 
     @property
     def SQLALCHEMY_DATABASE_URI(self):
-        db_path = path.abspath('azir.db')
+        db_path = path.abspath('beanstock.db')
         return 'sqlite:///' + db_path
 
 
