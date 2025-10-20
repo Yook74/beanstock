@@ -18,6 +18,13 @@ def one_item(item):
         'cost': item.cost
     })
 
+@bluep.get('new')
+def new_item_page():
+    return render_template('new_item.html',
+        item_types=ItemType.query.all()
+    )
+
+
 
 @bluep.get('<int:id>/adjust')
 @by_id(Item)
