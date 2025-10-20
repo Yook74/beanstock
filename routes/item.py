@@ -1,6 +1,8 @@
+from datetime import datetime, timedelta
+
 from flask import Blueprint, render_template, jsonify, request
 from werkzeug.exceptions import BadRequest
-from datetime import datetime
+from sqlalchemy import or_
 
 from routes import by_id
 from models import *
@@ -20,17 +22,15 @@ def one_item(item):
 @bluep.get('<int:id>/adjust')
 @by_id(Item)
 def adjust_item(item):
-    return render_template(
-        'adjust_item.html',
-        item=item,
-        active_sale_contexts=SaleContext.query.filter(SaleContext.end_time == None) # TODO or ended recently
+    after_date = datetime.now() - timedelta(days=7)
+    return render_template('adjust_item.html', item=item,
+        active_sale_contexts=SaleContext.query.filter(or_(SaleContext.end_time == None, SaleContext.end_time > after_date))
     )
 
 
 @bluep.post('<int:id>/quantity')
 @by_id(Item)
 def set_quantity(item):
-    new_quantity = 0
     if request.json.get('weight'):
         # TODO what if not weight_in_grams
         new_quantity = round(float(request.json.get('weight')) / item.weight_grams)
