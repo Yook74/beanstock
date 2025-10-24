@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Beanstock</title>
-</head>
-<body>
-	<img src="https://preview.redd.it/ey-you-got-it-boss-wunks-v0-elg5fsjldqwd1.jpeg?width=640&crop=smart&auto=webp&s=43e1f79ef56c198d5f9a99c63be241b20edb6740"></img>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Homeboyz</h1>
+    <h4>You have ${{ total_value }} in inventory</h4>
+    <a href="/item/new">Add new item</a>
+    <br>
+    <h3>Adjust quantities</h3>
+    {% for item in items %}
+        <a href="/item/{{ item.id }}/adjust">{{ item.short_name }}</a><br>
+    {% endfor %}
+{% endblock %}
