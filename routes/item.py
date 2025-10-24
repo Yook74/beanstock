@@ -32,7 +32,9 @@ def adjust_item(item):
 def set_quantity(item):
     new_quantity = 0
     if request.json.get('weight'):
-        # TODO what if not weight_in_grams
+        if request.json.get('weightForOne'):
+            item.weight_grams = float(request.json['weightForOne'])
+
         new_quantity = round(float(request.json.get('weight')) / item.weight_grams)
     elif request.json.get('quantity'):
         new_quantity = int(request.json.get('quantity'))
