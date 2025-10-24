@@ -1,4 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-  Schlunk
+<form method="post">
+    <h1>New Guys</h1>
+    <div>
+        <label for="newItem">Item Name</label><br/>
+        <input id="newItem" name="newItem" required>
+    </div>
+    <br/>
+    <div>
+        <label for="itemCost">You lost</label><br/>
+        <input id="itemCost" type="number" name="itemCost" required>
+    </div>
+    <br/>
+    <div>
+        <label for="itemPrice">You git</label><br/>
+        <input id="itemPrice" type="number" name="itemPrice">
+    </div>
+    <br/>
+    <div>
+          <label for="itemType">What is he?</label><br/>
+          <select name="itemType" id="itemType" required>
+            {% for itemType in item_types %}
+                <option value="{{ itemType.id }}">{{ itemType.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <br/>
+    <input type="submit" value="fin🐟">
+</form>
 {% endblock %}

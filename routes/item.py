@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from flask import Blueprint, render_template, jsonify, request
+from flask import Blueprint, render_template, jsonify, request, redirect
 from werkzeug.exceptions import BadRequest
 from sqlalchemy import or_
 
@@ -24,6 +24,18 @@ def new_item_page():
         item_types=ItemType.query.all()
     )
 
+@bluep.post('new')
+def add_new_item():
+    item = Item(
+        short_name=request.form['newItem'],
+        cost=request.form["itemCost"],
+        standard_price=request.form["itemPrice"],
+        type_id=request.form["itemType"]
+    )
+    db.session.add(item)
+    db.session.commit()
+
+    return redirect(f'{item.id}/adjust')
 
 
 @bluep.get('<int:id>/adjust')
