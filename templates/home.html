@@ -4,8 +4,11 @@
     <h4>You have ${{ total_value }} in inventory</h4>
     <a href="/item/new">Add new item</a>
     <br>
-    <h3>Adjust quantities</h3>
-    {% for item in items %}
-        <a href="/item/{{ item.id }}/adjust">{{ item.short_name }}</a><br>
+    <h3>Adjust inventory:</h3>
+    {% for type in item_types %}
+        <h4>{{ type.name }}</h4>
+        {% for item in type.items %}
+            <a href="/item/{{ item.id }}/adjust">{{ item.short_name }}</a><br>
+        {% endfor %}
     {% endfor %}
 {% endblock %}
