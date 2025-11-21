@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Beanstock{% endblock %}</title>
+    <link rel="stylesheet" href="/static/base.css" />
 </head>
 <body>
+    <button class="home-botton" onclick="window.location='/'">Beanstock</button>
     {% block content %}{% endblock %}
     {% block scripts %}{% endblock %}
 </body>

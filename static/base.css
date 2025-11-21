@@ -1,0 +1,73 @@
+body {
+    background: #9BBFAD;
+    font-family: SimSong;
+}
+
+/*button {*/
+/*    color: red;*/
+/*}*/
+
+/*#second-button {*/
+/*    color: green;*/
+/*}*/
+
+/*.orange-button {*/
+/*    color: orange;*/
+/*}*/
+
+/*.bold-button {*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.pretty-text {*/
+/*    font-family: Georgia;*/
+/*    font-style: italic;*/
+/*    color: purple;*/
+/*    font-variant-caps: small-caps;*/
+.home-botton {
+    border-color: transparent;
+    background-color: transparent;
+    font-family: SimSong;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.homepage {
+    font-family: SimSong;
+    font-weight: bold;
+}
+.item-type-block a {
+    color: white;
+}
+
+a:hover {
+    color: #406452;
+}
+
+h1 {
+    text-align: center;
+}
+
+.item-type-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item-type-block {
+    background-color: #D3E3DB;
+    margin: 10px;
+    border: 2px solid black;
+    padding: 5px;
+    width: 12%;
+    cursor: pointer;
+}
+
+a {
+    color: black;
+}
+
+.important-number {
+    font-weight: bold;
+    font-style: italic;
+    color: #406452;
+}

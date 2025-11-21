@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Homeboyz</h1>
-    <h4>You have ${{ total_value }} in inventory</h4>
-    <a href="/item/new">Add new item</a>
+    <h1 class="homepage">Beanstock</h1>
+    <br>
+    <h3>You have <span class="important-number">${{ total_value }}</span> in inventory.</h3>
+    <br>
+    <a href="/item/new">+ Add new item</a>
+    <br>
     <br>
     <h3>Adjust inventory:</h3>
-    {% for type in item_types %}
-        <h4>{{ type.name }}</h4>
-        {% for item in type.items %}
-            <a href="/item/{{ item.id }}/adjust">{{ item.short_name }}</a><br>
+    <div class="item-type-container">
+        {% for type in item_types %}
+            <div class="item-type-block">
+                <h4>{{ type.name }}</h4>
+                {% for item in type.items %}
+                    <a href="/item/{{ item.id }}/adjust">{{ item.short_name }}</a><br>
+                {% endfor %}
+            </div>
         {% endfor %}
-    {% endfor %}
+    </div>
 {% endblock %}
