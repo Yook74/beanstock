@@ -48,6 +48,10 @@ h1 {
     text-align: center;
 }
 
+h3 {
+    text-align: center;
+}
+
 .item-type-container {
     display: flex;
     flex-wrap: wrap;
@@ -58,7 +62,6 @@ h1 {
     margin: 10px;
     border: 2px solid black;
     padding: 5px;
-    width: 12%;
     cursor: pointer;
 }
 
@@ -70,4 +73,8 @@ a {
     font-weight: bold;
     font-style: italic;
     color: #406452;
+}
+
+.void {
+    text-align: center;
 }

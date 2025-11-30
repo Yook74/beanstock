@@ -4,35 +4,15 @@
 <h1>{{ item.short_name }} <img width="30" src="{{ url_for('static', filename='sparkle.png') }}"></h1>
 <form>
     <div>
-        <label for="currentQty">You have</label><br/>
-        <input id="currentQty" value="{{ item.quantity }}" readonly/>
+        <h3>You have <span class="important-number">{{ item.quantity }}</span> in inventory.</h3>
     </div>
-    <br/>
-    <h4>You got:</h4>
+<h4>Adjust quantity:</h4>
     <div>
-        <label for="newQty">Amount</label><br/>
-        <input id="newQty" name="newQty">
-    </div>
-    <br/>
-    <div>
-        <label for="newWeight">Weight in grams</label><br/>
-        <input id="newWeight" name="newWeight">
-    </div>
-    <br/>
-    {%  if item.weight_grams == none %}
-        <div>
-            <label for="findWeight"> Please weigh 5 items and enter the total grams</label><br/>
-            <input id="findWeight" name="findWeight">
-        </div>
-    {% endif %}
-    <br/>
-    <div>
-        <label for="changeReason">Change why?</label><br/>
-        <select name="changeReason" id="changeReason"
-                onchange="document.querySelector('#saleContext').hidden = this.value !== 'sale'">
-            <option selected value="sale">Sale</option>
+        <select name="changeReason" id="changeReason" onchange="showHideFields()">
+            <option selected value="none"></option>
+            <option value="sale">Sale</option>
             <option value="restock">Restock</option>
-            <option value="restock">Reconciliation</option>
+            <option value="reconcile">Reconciliation</option>
         </select>
         <select name="saleContext" id="saleContext">
             {% for sale_context in active_sale_contexts %}
@@ -41,12 +21,32 @@
         </select>
     </div>
     <br/>
-    <input type="image" width="100" src="{{ url_for('static', filename='thumbs.png') }}"/>
+    <div id="qtyContainer">
+        <label id="qtyLabel" for="newQty">Amount</label><br/>
+        <input id="newQty" name="newQty">
+    </div>
+    <br/>
+    <div id="weightContainer">
+        <label for="newWeight">Total weight in grams</label><br/>
+        <input id="newWeight" name="newWeight">
+    </div>
+    <br/>
+    {%  if item.weight_grams == none %}
+        <div id="weightHim">
+            <label for="findWeight"> Please weigh 5 items and enter the total grams</label><br/>
+            <input id="findWeight" name="findWeight">
+        </div>
+    {% endif %}
+    <input id="scaryMan" type="image" width="100" src="{{ url_for('static', filename='thumbs.png') }}"/>
 </form>
+    <a class="void" onclick="maybeDelete()">Delete</a>
 {% endblock %}
 {% block scripts %}
 <script>
     document.querySelector('form').onsubmit = (event) => {
+        let changeReasonValue = document.querySelector('#changeReason').value;
+        let action = {sale: 'set', reconcile: 'set', restock: 'add'}[changeReasonValue];
+
         event.preventDefault();
 
         const xhr = new XMLHttpRequest();
@@ -63,13 +63,48 @@
         let data = {
             weight: document.getElementById('newWeight').value,
             quantity: document.getElementById('newQty').value,
-            context: document.getElementById('changeReason').value === 'sale' ? context : ''
+            context: document.getElementById('changeReason').value === 'sale' ? context : '',
+            action: action
         };
         let findWeight = document.getElementById('findWeight');
         if (findWeight && findWeight.value)
             data.weightForOne = parseInt(findWeight.value) / 5;
 
         xhr.send(JSON.stringify(data));
+    }
+    function showHideFields(){
+        let changeReasonValue = document.querySelector('#changeReason').value;
+        let hidden = {}
+
+        if (changeReasonValue === 'sale'){
+            hidden = {saleContext: false, qtyContainer: false, weightContainer: false, weightHim: true, scaryMan: false}
+            document.querySelector('#qtyLabel').innerHTML='How many do you have?';
+        }
+        if (changeReasonValue === 'none'){
+            hidden = {saleContext: true, qtyContainer: true, weightContainer: true, weightHim: true, scaryMan: true}
+        }
+        if (changeReasonValue === 'restock'){
+            hidden = {saleContext: true, qtyContainer: false, weightContainer: false, weightHim: true, scaryMan: false}
+            document.querySelector('#qtyLabel').innerHTML='How many did you get?';
+        }
+        if (changeReasonValue === 'reconcile'){
+            hidden = {saleContext: true, qtyContainer: false, weightContainer: false, weightHim: true, scaryMan: false}
+            document.querySelector('#qtyLabel').innerHTML='How many do you have?';
+        }
+
+        for (let id in hidden){
+            document.querySelector('#' + id).hidden = hidden[id];
+        }
+    }
+    showHideFields();
+
+    async function maybeDelete(){
+        if (!confirm('Are you sure about that.')) return;
+
+        await fetch('delete', {
+            method: 'POST'
+        });
+        window.location = '/';
     }
 </script>
 {% endblock %}

@@ -27,15 +27,23 @@ def new_item_page():
 @bluep.post('new')
 def add_new_item():
     item = Item(
-        short_name=request.form['newItem'],
+        short_name=request.form['newItem'].capitalize(),
         cost=request.form["itemCost"],
         standard_price=request.form["itemPrice"],
-        type_id=request.form["itemType"]
+        type_id=request.form["itemType"],
+        quantity=0
     )
     db.session.add(item)
     db.session.commit()
 
     return redirect(f'{item.id}/adjust')
+
+@bluep.post('<int:id>/delete')
+@by_id(Item)
+def delete_item(item):
+    db.session.delete(item)
+    db.session.commit()
+    return 'gone'
 
 
 @bluep.get('<int:id>/adjust')
@@ -69,7 +77,13 @@ def set_quantity(item):
             # TODO price
             db.session.add(Sale(item=item, context_id=context_id, timestamp=datetime.now()))
 
-    item.quantity = new_quantity
+    if request.json.get('action') == 'add':
+        item.quantity += new_quantity
+    elif request.json.get('action') == 'subtract':
+        item.quantity -= new_quantity
+    else:
+        item.quantity = new_quantity
+
     db.session.commit()
 
     return 'updated'

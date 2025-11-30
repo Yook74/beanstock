@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1 class="homepage">Beanstock</h1>
-    <br>
     <h3>You have <span class="important-number">${{ total_value }}</span> in inventory.</h3>
     <br>
     <a href="/item/new">+ Add new item</a>
@@ -13,8 +12,9 @@
             <div class="item-type-block">
                 <h4>{{ type.name }}</h4>
                 {% for item in type.items %}
-                    <a href="/item/{{ item.id }}/adjust">{{ item.short_name }}</a><br>
+                    <a href="/item/{{ item.id }}/adjust">{{ item.quantity }} {{ item.short_name }}</a><br>
                 {% endfor %}
+            <br>
             </div>
         {% endfor %}
     </div>
