@@ -45,6 +45,13 @@ def delete_item(item):
     db.session.commit()
     return 'gone'
 
+@bluep.post('<int:id>/rename')
+@by_id(Item)
+def rename(item):
+    new_name = request.data.decode('utf-8')
+    item.short_name=new_name
+    db.session.commit()
+    return new_name
 
 @bluep.get('<int:id>/adjust')
 @by_id(Item)

@@ -39,7 +39,11 @@
     {% endif %}
     <input id="scaryMan" type="image" width="100" src="{{ url_for('static', filename='thumbs.png') }}"/>
 </form>
+    <a class="void" onclick="rename()">Change Name</a>
+    <div>
+    <br/>
     <a class="void" onclick="maybeDelete()">Delete</a>
+    </div>
 {% endblock %}
 {% block scripts %}
 <script>
@@ -84,11 +88,11 @@
             hidden = {saleContext: true, qtyContainer: true, weightContainer: true, weightHim: true, scaryMan: true}
         }
         if (changeReasonValue === 'restock'){
-            hidden = {saleContext: true, qtyContainer: false, weightContainer: false, weightHim: true, scaryMan: false}
+            hidden = {saleContext: true, qtyContainer: false, weightContainer: false, weightHim: false, scaryMan: false}
             document.querySelector('#qtyLabel').innerHTML='How many did you get?';
         }
         if (changeReasonValue === 'reconcile'){
-            hidden = {saleContext: true, qtyContainer: false, weightContainer: false, weightHim: true, scaryMan: false}
+            hidden = {saleContext: true, qtyContainer: false, weightContainer: false, weightHim: false, scaryMan: false}
             document.querySelector('#qtyLabel').innerHTML='How many do you have?';
         }
 
@@ -97,6 +101,16 @@
         }
     }
     showHideFields();
+
+    async function rename() {
+        let newName = prompt('Enter new name');
+
+         await fetch('rename', {
+             method: 'POST',
+             body: newName
+        });
+        window.location = 'adjust';
+    }
 
     async function maybeDelete(){
         if (!confirm('Are you sure about that.')) return;
