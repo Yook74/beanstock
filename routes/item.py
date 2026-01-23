@@ -28,7 +28,7 @@ def new_item_page():
 def add_new_item():
     item = Item(
         short_name=request.form['newItem'].capitalize(),
-        cost=request.form["itemCost"],
+        cost=request.form["itemCost"] or None,
         standard_price=request.form["itemPrice"],
         type_id=request.form["itemType"],
         quantity=0
@@ -65,10 +65,10 @@ def adjust_item(item):
 @bluep.post('<int:id>/quantity')
 @by_id(Item)
 def set_quantity(item):
-    if request.json.get('weight'):
-        if request.json.get('weightForOne'):
-            item.weight_grams = float(request.json['weightForOne'])
+    if request.json.get('weightForOne'):
+        item.weight_grams = float(request.json['weightForOne'])
 
+    if request.json.get('weight'):
         new_quantity = round(float(request.json.get('weight')) / item.weight_grams)
     elif request.json.get('quantity'):
         new_quantity = int(request.json.get('quantity'))
