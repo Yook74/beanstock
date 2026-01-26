@@ -13,7 +13,7 @@ class Item(db.Model):
     """A type of stocked macguffin. For example, a particular print design"""
     id = db.Column(db.Integer(), primary_key=True)
     type_id = db.Column(db.Integer(), db.ForeignKey('item_type.id'))
-    short_name = db.Column(db.String(128), nullable=False, unique=True)
+    short_name = db.Column(db.String(128), nullable=False)
     cost = db.Column(db.Numeric(precision=8, scale=2))
     standard_price = db.Column(db.Numeric(precision=8, scale=2))
     weight_grams = db.Column(db.Float())
