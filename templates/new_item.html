@@ -2,6 +2,16 @@
 {% block content %}
 <form method="post">
     <h1>New Guys</h1>
+    <br/>
+    <div>
+          <label for="itemType">What is he?</label><br/>
+          <select name="itemType" id="itemType" required onchange="updateDefaults();">
+            {% for itemType in item_types %}
+                <option value="{{ itemType.id }}">{{ itemType.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <br/>
     <div>
         <label for="newItem">Item Name</label><br/>
         <input id="newItem" name="newItem" required>
@@ -9,7 +19,7 @@
     <br/>
     <div>
         <label for="itemCost">How much did you pay for 1 item?</label><br/>
-        $<input id="itemCost" name="itemCost">
+        $<input id="itemCost" name="itemCost" value="10">
     </div>
     <br/>
     <div>
@@ -17,15 +27,25 @@
         $<input id="itemPrice" name="itemPrice">
     </div>
     <br/>
-    <div>
-          <label for="itemType">What is he?</label><br/>
-          <select name="itemType" id="itemType" required>
-            {% for itemType in item_types %}
-                <option value="{{ itemType.id }}">{{ itemType.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <br/>
     <input type="submit" value="fin🐟">
 </form>
+{% endblock %}
+{% block scripts %}
+<script>
+function updateDefaults() {
+    let itemType = document.querySelector('#itemType').value;
+     if (itemType == 1) {
+        document.querySelector('#itemCost').value = 1;
+        document.querySelector('#itemPrice').value = 25;
+    }
+    if (itemType == 3) {
+        document.querySelector('#itemCost').value = .45;
+        document.querySelector('#itemPrice').value = 5;
+    }
+    if (itemType == 4) {
+        document.querySelector('#itemCost').value = 5;
+        document.querySelector('#itemPrice').value = 10;
+    }
+}
+</script>
 {% endblock %}

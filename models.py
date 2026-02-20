@@ -21,6 +21,9 @@ class Item(db.Model):
 
     type = db.relationship('ItemType', backref='items')
 
+    def __lt__(self, other):
+        return self.short_name < other.short_name
+
 
 class Sale(db.Model):
     """One of these happens when exactly one of an item is sold"""

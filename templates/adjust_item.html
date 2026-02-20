@@ -33,7 +33,7 @@
     <br/>
     {%  if item.weight_grams == none %}
         <div id="weightHim">
-            <label for="findWeight"> Please weigh 5 items and enter the total grams</label><br/>
+            <label for="findWeight"> Please weigh 10 items and enter the total grams</label><br/>
             <input id="findWeight" name="findWeight">
         </div>
     {% endif %}
@@ -72,7 +72,7 @@
         };
         let findWeight = document.getElementById('findWeight');
         if (findWeight && findWeight.value)
-            data.weightForOne = parseInt(findWeight.value) / 5;
+            data.weightForOne = parseInt(findWeight.value) / 10;
 
         xhr.send(JSON.stringify(data));
     }

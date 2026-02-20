@@ -11,8 +11,10 @@
         {% for type in item_types %}
             <div class="item-type-block">
                 <h4>{{ type.name }}</h4>
-                {% for item in type.items %}
-                    <a href="/item/{{ item.id }}/adjust">{{ item.quantity }} {{ item.short_name }}</a><br>
+                {% for item in type.items | sort %}
+                    <a href="/item/{{ item.id }}/adjust"
+                        {% if item.quantity<10 %} style="color:#304D25" {% endif %}
+                    >{{ item.quantity }} {{ item.short_name }}</a><br>
                 {% endfor %}
             <br>
             </div>
